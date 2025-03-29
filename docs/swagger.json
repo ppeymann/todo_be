@@ -1,0 +1,109 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/signup": {
+            "post": {
+                "description": "create new account with specified mobile and expected info",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "account"
+                ],
+                "summary": "signing up a new account",
+                "parameters": [
+                    {
+                        "description": "sign up input",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.SignUpInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "always returns status 200 but body contains error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/todo.BaseResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/models.TokenBundleOutput"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.SignUpInput": {
+            "type": "object",
+            "properties": {
+                "first_name": {
+                    "type": "string"
+                },
+                "last_name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "user_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.TokenBundleOutput": {
+            "type": "object",
+            "properties": {
+                "expire": {
+                    "description": "Expire time of Token and CentrifugeToken",
+                    "type": "string"
+                },
+                "refresh": {
+                    "description": "Refresh token string used for refreshing authentication and give fresh token",
+                    "type": "string"
+                },
+                "token": {
+                    "description": "Token is JWT/PASETO token staring for storing in client side as access token",
+                    "type": "string"
+                }
+            }
+        },
+        "todo.BaseResult": {
+            "type": "object",
+            "properties": {
+                "errors": {
+                    "description": "Errors provides list off error that occurred in processing request",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "result": {
+                    "description": "Result single/array of any type (object/number/string/boolean) that returns as response"
+                },
+                "result_count": {
+                    "description": "ResultCount specified number of records that returned in result_count field expected result been array.",
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

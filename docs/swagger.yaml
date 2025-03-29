@@ -1,0 +1,72 @@
+definitions:
+  models.SignUpInput:
+    properties:
+      first_name:
+        type: string
+      last_name:
+        type: string
+      password:
+        type: string
+      user_name:
+        type: string
+    type: object
+  models.TokenBundleOutput:
+    properties:
+      expire:
+        description: Expire time of Token and CentrifugeToken
+        type: string
+      refresh:
+        description: Refresh token string used for refreshing authentication and give
+          fresh token
+        type: string
+      token:
+        description: Token is JWT/PASETO token staring for storing in client side
+          as access token
+        type: string
+    type: object
+  todo.BaseResult:
+    properties:
+      errors:
+        description: Errors provides list off error that occurred in processing request
+        items:
+          type: string
+        type: array
+      result:
+        description: Result single/array of any type (object/number/string/boolean)
+          that returns as response
+      result_count:
+        description: ResultCount specified number of records that returned in result_count
+          field expected result been array.
+        type: integer
+    type: object
+info:
+  contact: {}
+paths:
+  /signup:
+    post:
+      consumes:
+      - application/json
+      description: create new account with specified mobile and expected info
+      parameters:
+      - description: sign up input
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.SignUpInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: always returns status 200 but body contains error
+          schema:
+            allOf:
+            - $ref: '#/definitions/todo.BaseResult'
+            - properties:
+                result:
+                  $ref: '#/definitions/models.TokenBundleOutput'
+              type: object
+      summary: signing up a new account
+      tags:
+      - account
+swagger: "2.0"

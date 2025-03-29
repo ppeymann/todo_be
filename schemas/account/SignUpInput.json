@@ -1,0 +1,26 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$protected": false,
+    "type": "object",
+    "$id": "SignUpInput",
+    "properties": {
+        "user_name": {
+            "type": "string"
+        },
+        "password": {
+            "type": "string"
+        },
+        "first_name":{
+            "type": "string"
+        },
+        "last_name":{
+            "type": "string"
+        }
+    },
+    "required": [
+        "user_name",
+        "password",
+        "first_name",
+        "last_name"
+    ]
+}
