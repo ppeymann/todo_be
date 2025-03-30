@@ -15,6 +15,46 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer Authenticate": []
+                    }
+                ],
+                "description": "get account info with specified id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "account"
+                ],
+                "summary": "get account info",
+                "responses": {
+                    "200": {
+                        "description": "always returns status 200 but body contains error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/todo.BaseResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/models.AccountEntity"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/change_pass": {
             "patch": {
                 "security": [
@@ -160,6 +200,27 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "models.AccountEntity": {
+            "type": "object",
+            "properties": {
+                "first_name": {
+                    "description": "FirstName",
+                    "type": "string"
+                },
+                "last_name": {
+                    "description": "LastName",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "Password",
+                    "type": "string"
+                },
+                "user_name": {
+                    "description": "Username",
+                    "type": "string"
+                }
+            }
+        },
         "models.ChangePasswordInput": {
             "type": "object",
             "properties": {

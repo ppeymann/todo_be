@@ -52,3 +52,12 @@ func (i *instrumentingServices) ChangePassword(in *models.ChangePasswordInput, c
 
 	return i.next.ChangePassword(in, ctx)
 }
+
+func (i *instrumentingServices) Account(ctx *gin.Context) *todo.BaseResult {
+	defer func(begin time.Time) {
+		i.requestCounter.With("method", "Account").Add(1)
+		i.requestLatency.With("method", "Account").Observe(time.Since(begin).Seconds())
+	}(time.Now())
+
+	return i.next.Account(ctx)
+}

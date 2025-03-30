@@ -44,3 +44,7 @@ func (a *authorizationService) ChangePassword(in *models.ChangePasswordInput, ct
 	in.Subject = claims.Subject
 	return a.next.ChangePassword(in, ctx)
 }
+
+func (a *authorizationService) Account(ctx *gin.Context) *todo.BaseResult {
+	return a.next.Account(ctx)
+}

@@ -27,6 +27,7 @@ func NewHandler(svc models.AccountService, s *server.Server) models.AccountHandl
 	group.Use(s.Authenticate())
 	{
 		group.PATCH("/change_pass", handler.ChangePassword)
+		group.GET("/", handler.Account)
 	}
 
 	return handler
@@ -117,5 +118,24 @@ func (h *handler) ChangePassword(ctx *gin.Context) {
 
 	// call associated service method for expected request
 	result := h.service.ChangePassword(in, ctx)
+	ctx.JSON(result.Status, result)
+}
+
+// Account handles is for change password in setting http request.
+//
+// @BasePath 		/api/v1/account
+// @Summary			get account info
+// @Description 	get account info with specified id
+// @Tags 			account
+// @Accept 			json
+// @Produce 		json
+//
+// @Success			200			{object}	todo.BaseResult{result=models.AccountEntity}	"always returns status 200 but body contains error"
+// @Router			/		[get]
+// @Security		Bearer Authenticate
+func (h *handler) Account(ctx *gin.Context) {
+
+	// call associated service method for expected request
+	result := h.service.Account(ctx)
 	ctx.JSON(result.Status, result)
 }

@@ -54,3 +54,7 @@ func (v *validationService) ChangePassword(input *models.ChangePasswordInput, ct
 
 	return v.next.ChangePassword(input, ctx)
 }
+
+func (v *validationService) Account(ctx *gin.Context) *todo.BaseResult {
+	return v.next.Account(ctx)
+}

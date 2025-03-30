@@ -27,6 +27,9 @@ type (
 
 		// ChangePassword is for change password in setting
 		ChangePassword(in *ChangePasswordInput, ctx *gin.Context) *todo.BaseResult
+
+		// Account is method for get account information
+		Account(ctx *gin.Context) *todo.BaseResult
 	}
 
 	// AccountRepository represents method signatures for account domain repository.
@@ -58,6 +61,9 @@ type (
 
 		// ChangePassword is handler for change password in setting
 		ChangePassword(ctx *gin.Context)
+
+		// Account is handler for get account information
+		Account(ctx *gin.Context)
 	}
 
 	// AccountEntity Contains account info and is entity of user account that stored on database.
@@ -70,7 +76,7 @@ type (
 		Username string `json:"user_name" gorm:"column:user_name;index;unique"`
 
 		// Password
-		Password string `json:"password" gorm:"password" mapstructure:"password"`
+		Password string `json:"-" gorm:"password" mapstructure:"password"`
 
 		// LastName
 		LastName string `json:"last_name" gorm:"column:last_name"`

@@ -1,4 +1,19 @@
 definitions:
+  models.AccountEntity:
+    properties:
+      first_name:
+        description: FirstName
+        type: string
+      last_name:
+        description: LastName
+        type: string
+      password:
+        description: Password
+        type: string
+      user_name:
+        description: Username
+        type: string
+    type: object
   models.ChangePasswordInput:
     properties:
       new:
@@ -58,6 +73,28 @@ definitions:
 info:
   contact: {}
 paths:
+  /:
+    get:
+      consumes:
+      - application/json
+      description: get account info with specified id
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: always returns status 200 but body contains error
+          schema:
+            allOf:
+            - $ref: '#/definitions/todo.BaseResult'
+            - properties:
+                result:
+                  $ref: '#/definitions/models.AccountEntity'
+              type: object
+      security:
+      - Bearer Authenticate: []
+      summary: get account info
+      tags:
+      - account
   /change_pass:
     patch:
       consumes:

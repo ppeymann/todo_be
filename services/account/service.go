@@ -266,3 +266,27 @@ func (s *service) ChangePassword(in *models.ChangePasswordInput, _ *gin.Context)
 		Result: "Successful",
 	}
 }
+
+func (s *service) Account(ctx *gin.Context) *todo.BaseResult {
+	claims := &auth.Claims{}
+	err := utils.CatchClaims(ctx, claims)
+	if err != nil {
+		return &todo.BaseResult{
+			Status: http.StatusOK,
+			Errors: []string{todo.AuthorizationFailed},
+		}
+	}
+
+	acc, err := s.repo.FindByID(claims.Subject)
+	if err != nil {
+		return &todo.BaseResult{
+			Status: http.StatusOK,
+			Errors: []string{err.Error()},
+		}
+	}
+
+	return &todo.BaseResult{
+		Status: http.StatusOK,
+		Result: acc,
+	}
+}
