@@ -21,6 +21,9 @@ type (
 	AccountService interface {
 		// SignUp is service for sign up and create account
 		SignUp(in *SignUpInput, ctx *gin.Context) *todo.BaseResult
+
+		// SignIn is service for sign in to site
+		SignIn(in *LoginInput, ctx *gin.Context) *todo.BaseResult
 	}
 
 	// AccountRepository represents method signatures for account domain repository.
@@ -43,6 +46,9 @@ type (
 	AccountHandler interface {
 		// SignUp is handler for sign up and create account
 		SignUp(ctx *gin.Context)
+
+		// SignIn is handler for sign in
+		SignIn(ctx *gin.Context)
 	}
 
 	// AccountEntity Contains account info and is entity of user account that stored on database.

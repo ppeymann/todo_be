@@ -34,7 +34,7 @@ func (r *accountRepository) Create(in *models.SignUpInput) (*models.AccountEntit
 		Username:  in.Username,
 		Password:  in.Password,
 		LastName:  in.LastName,
-		FirstName: in.LastName,
+		FirstName: in.FirstName,
 	}
 
 	// Create account

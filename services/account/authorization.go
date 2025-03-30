@@ -20,3 +20,8 @@ func NewAuthorizationService(service models.AccountService) models.AccountServic
 func (a *authorizationService) SignUp(input *models.SignUpInput, ctx *gin.Context) *todo.BaseResult {
 	return a.next.SignUp(input, ctx)
 }
+
+// SignIn implements service.AccountService.
+func (a *authorizationService) SignIn(input *models.LoginInput, ctx *gin.Context) *todo.BaseResult {
+	return a.next.SignIn(input, ctx)
+}

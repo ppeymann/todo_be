@@ -32,3 +32,13 @@ func (i *instrumentingServices) SignUp(input *models.SignUpInput, ctx *gin.Conte
 
 	return i.next.SignUp(input, ctx)
 }
+
+// SignIn implements services.AccountServices.
+func (i *instrumentingServices) SignIn(input *models.LoginInput, ctx *gin.Context) *todo.BaseResult {
+	defer func(begin time.Time) {
+		i.requestCounter.With("method", "SignIn").Add(1)
+		i.requestLatency.With("method", "SignIn").Observe(time.Since(begin).Seconds())
+	}(time.Now())
+
+	return i.next.SignIn(input, ctx)
+}
