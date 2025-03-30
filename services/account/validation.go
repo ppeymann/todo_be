@@ -44,3 +44,13 @@ func (v *validationService) SignIn(input *models.LoginInput, ctx *gin.Context) *
 
 	return v.next.SignIn(input, ctx)
 }
+
+// ChangePassword implements services.AccountService.
+func (v *validationService) ChangePassword(input *models.ChangePasswordInput, ctx *gin.Context) *todo.BaseResult {
+	err := validations.Validate(input, v.schemas)
+	if err != nil {
+		return err
+	}
+
+	return v.next.ChangePassword(input, ctx)
+}

@@ -24,6 +24,11 @@ func NewHandler(svc models.AccountService, s *server.Server) models.AccountHandl
 		group.POST("/signin", handler.SignIn)
 	}
 
+	group.Use(s.Authenticate())
+	{
+		group.PATCH("/change_pass", handler.ChangePassword)
+	}
+
 	return handler
 }
 
@@ -82,5 +87,35 @@ func (h *handler) SignIn(ctx *gin.Context) {
 
 	// call associated service method for expected request
 	result := h.service.SignIn(in, ctx)
+	ctx.JSON(result.Status, result)
+}
+
+// ChangePassword handles is for change password in setting http request.
+//
+// @BasePath 		/api/v1/account/change_pass
+// @Summary			change password
+// @Description 	change password with specified id
+// @Tags 			account
+// @Accept 			json
+// @Produce 		json
+//
+// @Param			input		body		models.ChangePasswordInput	true	"change password input"
+// @Success			200			{object}	todo.BaseResult{result=string}	"always returns status 200 but body contains error"
+// @Router			/change_pass		[patch]
+// @Security		Bearer Authenticate
+func (h *handler) ChangePassword(ctx *gin.Context) {
+	in := &models.ChangePasswordInput{}
+
+	// get input from Body
+	if err := ctx.ShouldBindJSON(in); err != nil {
+		ctx.JSON(http.StatusBadRequest, todo.BaseResult{
+			Errors: []string{todo.ProvideRequiredJsonBody},
+		})
+
+		return
+	}
+
+	// call associated service method for expected request
+	result := h.service.ChangePassword(in, ctx)
 	ctx.JSON(result.Status, result)
 }

@@ -22,8 +22,10 @@ func NewAccountRepository(db *gorm.DB, database string) models.AccountRepository
 	}
 }
 
+// Create is method for create new account if not exist
 func (r *accountRepository) Create(in *models.SignUpInput) (*models.AccountEntity, error) {
 
+	// Find account if exist
 	_, err := r.FindByUserName(in.Username)
 	if err == nil {
 		return nil, models.ErrAccountExist
@@ -56,6 +58,7 @@ func (r *accountRepository) Create(in *models.SignUpInput) (*models.AccountEntit
 	return account, nil
 }
 
+// FindByUserName is method for finding account by username
 func (r *accountRepository) FindByUserName(username string) (*models.AccountEntity, error) {
 	acc := &models.AccountEntity{}
 
@@ -67,9 +70,20 @@ func (r *accountRepository) FindByUserName(username string) (*models.AccountEnti
 	return acc, err
 }
 
-// Update implements models.AccountRepository.
+// Update is method for updating account
 func (r *accountRepository) Update(account *models.AccountEntity) error {
 	return r.pg.Save(&account).Error
+}
+
+func (r *accountRepository) FindByID(id uint) (*models.AccountEntity, error) {
+	acc := &models.AccountEntity{}
+
+	err := r.Model().Where("id = ?", id).First(acc).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return acc, err
 }
 
 // Migrate implements models.AccountRepository.

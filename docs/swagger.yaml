@@ -1,4 +1,20 @@
 definitions:
+  models.ChangePasswordInput:
+    properties:
+      new:
+        type: string
+      old:
+        type: string
+      subject:
+        type: integer
+    type: object
+  models.LoginInput:
+    properties:
+      password:
+        type: string
+      user_name:
+        type: string
+    type: object
   models.SignUpInput:
     properties:
       first_name:
@@ -42,6 +58,63 @@ definitions:
 info:
   contact: {}
 paths:
+  /change_pass:
+    patch:
+      consumes:
+      - application/json
+      description: change password with specified id
+      parameters:
+      - description: change password input
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.ChangePasswordInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: always returns status 200 but body contains error
+          schema:
+            allOf:
+            - $ref: '#/definitions/todo.BaseResult'
+            - properties:
+                result:
+                  type: string
+              type: object
+      security:
+      - Bearer Authenticate: []
+      summary: change password
+      tags:
+      - account
+  /signin:
+    post:
+      consumes:
+      - application/json
+      description: sign in to existing account with specified mobile and expected
+        info
+      parameters:
+      - description: sign in input
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.LoginInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: always returns status 200 but body contains error
+          schema:
+            allOf:
+            - $ref: '#/definitions/todo.BaseResult'
+            - properties:
+                result:
+                  $ref: '#/definitions/models.TokenBundleOutput'
+              type: object
+      summary: sign in to existing account
+      tags:
+      - account
   /signup:
     post:
       consumes:

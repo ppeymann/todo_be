@@ -53,3 +53,19 @@ func (l *loggingServices) SignIn(input *models.LoginInput, ctx *gin.Context) (re
 
 	return l.next.SignIn(input, ctx)
 }
+
+// ChangePassword implements services.Accountservices.
+func (l *loggingServices) ChangePassword(in *models.ChangePasswordInput, ctx *gin.Context) (result *todo.BaseResult) {
+	defer func(begin time.Time) {
+		_ = l.logger.Log(
+			"method", "ChangePassword",
+			"errors", strings.Join(result.Errors, " ,"),
+			"input", in,
+			"result", result,
+			"client_ip", ctx.ClientIP(),
+			"took", time.Since(begin),
+		)
+	}(time.Now())
+
+	return l.next.ChangePassword(in, ctx)
+}

@@ -42,3 +42,13 @@ func (i *instrumentingServices) SignIn(input *models.LoginInput, ctx *gin.Contex
 
 	return i.next.SignIn(input, ctx)
 }
+
+// ChangePassword implements services.AccountServices.
+func (i *instrumentingServices) ChangePassword(in *models.ChangePasswordInput, ctx *gin.Context) *todo.BaseResult {
+	defer func(begin time.Time) {
+		i.requestCounter.With("method", "ChangePassword").Add(1)
+		i.requestLatency.With("method", "ChangePassword").Observe(time.Since(begin).Seconds())
+	}(time.Now())
+
+	return i.next.ChangePassword(in, ctx)
+}

@@ -24,6 +24,9 @@ type (
 
 		// SignIn is service for sign in to site
 		SignIn(in *LoginInput, ctx *gin.Context) *todo.BaseResult
+
+		// ChangePassword is for change password in setting
+		ChangePassword(in *ChangePasswordInput, ctx *gin.Context) *todo.BaseResult
 	}
 
 	// AccountRepository represents method signatures for account domain repository.
@@ -38,6 +41,9 @@ type (
 		// Update is for updating account
 		Update(account *AccountEntity) error
 
+		// FindByID is for find account by id
+		FindByID(id uint) (*AccountEntity, error)
+
 		todo.BaseRepository
 	}
 
@@ -49,6 +55,9 @@ type (
 
 		// SignIn is handler for sign in
 		SignIn(ctx *gin.Context)
+
+		// ChangePassword is handler for change password in setting
+		ChangePassword(ctx *gin.Context)
 	}
 
 	// AccountEntity Contains account info and is entity of user account that stored on database.
@@ -113,5 +122,14 @@ type (
 
 		// Expire time of Token and CentrifugeToken
 		Expire time.Time `json:"expire"`
+	}
+
+	// ChangePasswordInput is input that have new and old password that is string
+	//
+	// swagger:model ChangePasswordInput
+	ChangePasswordInput struct {
+		Subject uint   `json:"subject" gorm:"subject"`
+		Old     string `json:"old" gorm:"old"`
+		New     string `json:"new" gorm:"new"`
 	}
 )

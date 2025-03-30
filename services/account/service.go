@@ -215,3 +215,54 @@ func (s *service) SignIn(in *models.LoginInput, ctx *gin.Context) *todo.BaseResu
 		},
 	}
 }
+
+func (s *service) ChangePassword(in *models.ChangePasswordInput, _ *gin.Context) *todo.BaseResult {
+	acc, err := s.repo.FindByID(in.Subject)
+	if err != nil {
+		return &todo.BaseResult{
+			Status: http.StatusOK,
+			Errors: []string{err.Error()},
+		}
+	}
+
+	if env.IsProduction() {
+		if ok := utils.CheckHashedString(in.Old, acc.Password); !ok {
+			return &todo.BaseResult{
+				Status: http.StatusOK,
+				Errors: []string{"Password is not correct"},
+			}
+		}
+
+		hash, err := utils.HashString(in.New)
+		if err != nil {
+			return &todo.BaseResult{
+				Status: http.StatusOK,
+				Errors: []string{err.Error()},
+			}
+		}
+
+		acc.Password = hash
+	} else {
+		if acc.Password != in.Old {
+			return &todo.BaseResult{
+				Status: http.StatusOK,
+				Errors: []string{"Password is not correct"},
+			}
+		}
+
+		acc.Password = in.New
+	}
+
+	err = s.repo.Update(acc)
+	if err != nil {
+		return &todo.BaseResult{
+			Status: http.StatusOK,
+			Errors: []string{err.Error()},
+		}
+	}
+
+	return &todo.BaseResult{
+		Status: http.StatusOK,
+		Result: "Successful",
+	}
+}
