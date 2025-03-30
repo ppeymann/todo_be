@@ -34,6 +34,8 @@ type (
 
 		// Update is for updating account
 		Update(account *AccountEntity) error
+
+		todo.BaseRepository
 	}
 
 	// AccountHandler represents method signatures for account handlers.

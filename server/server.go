@@ -14,10 +14,10 @@ import (
 	kitlog "github.com/go-kit/log"
 	todo "github.com/ppeymann/todo_be.git"
 	"github.com/ppeymann/todo_be.git/auth"
+	"github.com/ppeymann/todo_be.git/docs"
 	"github.com/ppeymann/todo_be.git/env"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"github.com/swaggo/swag/example/basic/docs"
 )
 
 type Server struct {

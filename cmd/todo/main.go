@@ -8,6 +8,7 @@ import (
 
 	kitLog "github.com/go-kit/log"
 	todo "github.com/ppeymann/todo_be.git"
+	"github.com/ppeymann/todo_be.git/cmd/todo/pkg"
 	"github.com/ppeymann/todo_be.git/env"
 	"github.com/ppeymann/todo_be.git/server"
 	pg "gorm.io/driver/postgres"
@@ -33,7 +34,7 @@ func main() {
 	env := env.GetStringDefault("DSN", "")
 
 	// connect to Db server
-	_, err = gorm.Open(pg.Open(env), &gorm.Config{SkipDefaultTransaction: true})
+	db, err := gorm.Open(pg.Open(env), &gorm.Config{SkipDefaultTransaction: true})
 	if err != nil {
 		log.Fatal(err)
 		return
@@ -51,6 +52,8 @@ func main() {
 	svc := server.NewServer(sl, config)
 
 	// --------  initializing service  --------
+
+	pkg.InitAccountService(db, sl, config, *&svc)
 
 	// Listen and serve...
 	svc.Listen()
