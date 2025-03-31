@@ -86,6 +86,9 @@ type (
 
 		// Tokens list of current account active session
 		Tokens []RefreshTokenEntity `json:"-" gorm:"foreignKey:AccountID;references:ID"`
+
+		// @Todos
+		Todos []TodoEntity `json:"todos" gorm:"foreignKey:AccountID;references:ID"`
 	}
 
 	// RefreshTokenEntity is entity to store accounts active session

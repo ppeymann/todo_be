@@ -7,9 +7,11 @@ definitions:
       last_name:
         description: LastName
         type: string
-      password:
-        description: Password
-        type: string
+      todos:
+        description: '@Todos'
+        items:
+          $ref: '#/definitions/models.TodoEntity'
+        type: array
       user_name:
         description: Username
         type: string
@@ -39,6 +41,33 @@ definitions:
       password:
         type: string
       user_name:
+        type: string
+    type: object
+  models.TodoEntity:
+    properties:
+      account_id:
+        description: AccountID
+        type: integer
+      description:
+        description: Description
+        type: string
+      priority:
+        description: "Priority\t[1 = not important, 2 = important, 3 = very important]"
+        type: integer
+      status:
+        description: Status [in_progress, complete, ]
+        type: string
+      title:
+        description: Title
+        type: string
+    type: object
+  models.TodoInput:
+    properties:
+      description:
+        type: string
+      priority:
+        type: integer
+      title:
         type: string
     type: object
   models.TokenBundleOutput:
@@ -95,6 +124,34 @@ paths:
       summary: get account info
       tags:
       - account
+    post:
+      consumes:
+      - application/json
+      description: add new todo task with specified info and Account ID
+      parameters:
+      - description: todo input
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.TodoInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: always returns status 200 but body contains error
+          schema:
+            allOf:
+            - $ref: '#/definitions/todo.BaseResult'
+            - properties:
+                result:
+                  $ref: '#/definitions/models.TodoEntity'
+              type: object
+      security:
+      - Bearer Authenticate: []
+      summary: add new todo task
+      tags:
+      - todos
   /change_pass:
     patch:
       consumes:

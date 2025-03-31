@@ -53,6 +53,55 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer Authenticate": []
+                    }
+                ],
+                "description": "add new todo task with specified info and Account ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "todos"
+                ],
+                "summary": "add new todo task",
+                "parameters": [
+                    {
+                        "description": "todo input",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.TodoInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "always returns status 200 but body contains error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/todo.BaseResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/models.TodoEntity"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
             }
         },
         "/change_pass": {
@@ -211,9 +260,12 @@ const docTemplate = `{
                     "description": "LastName",
                     "type": "string"
                 },
-                "password": {
-                    "description": "Password",
-                    "type": "string"
+                "todos": {
+                    "description": "@Todos",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.TodoEntity"
+                    }
                 },
                 "user_name": {
                     "description": "Username",
@@ -259,6 +311,45 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "user_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.TodoEntity": {
+            "type": "object",
+            "properties": {
+                "account_id": {
+                    "description": "AccountID",
+                    "type": "integer"
+                },
+                "description": {
+                    "description": "Description",
+                    "type": "string"
+                },
+                "priority": {
+                    "description": "Priority\t[1 = not important, 2 = important, 3 = very important]",
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "Status [in_progress, complete, ]",
+                    "type": "string"
+                },
+                "title": {
+                    "description": "Title",
+                    "type": "string"
+                }
+            }
+        },
+        "models.TodoInput": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "priority": {
+                    "type": "integer"
+                },
+                "title": {
                     "type": "string"
                 }
             }
