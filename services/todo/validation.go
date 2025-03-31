@@ -45,3 +45,16 @@ func (v *validationService) GetByID(id uint, ctx *gin.Context) *todo.BaseResult 
 func (v *validationService) DeleteTodo(id uint, ctx *gin.Context) *todo.BaseResult {
 	return v.next.DeleteTodo(id, ctx)
 }
+
+func (v *validationService) UpdateTodo(in *models.TodoInput, id uint, ctx *gin.Context) *todo.BaseResult {
+	err := validations.Validate(in, v.schemas)
+	if err != nil {
+		return err
+	}
+
+	return v.next.UpdateTodo(in, id, ctx)
+}
+
+func (v *validationService) ChangeStatus(status string, id uint, ctx *gin.Context) *todo.BaseResult {
+	return v.next.ChangeStatus(status, id, ctx)
+}

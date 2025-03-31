@@ -62,3 +62,23 @@ func (i instrumentingServices) DeleteTodo(id uint, ctx *gin.Context) *todo.BaseR
 	return i.next.DeleteTodo(id, ctx)
 
 }
+
+func (i instrumentingServices) UpdateTodo(in *models.TodoInput, id uint, ctx *gin.Context) *todo.BaseResult {
+	defer func(begin time.Time) {
+		i.requestCounter.With("method", "UpdateTodo").Add(1)
+		i.requestLatency.With("method", "UpdateTodo").Observe(time.Since(begin).Seconds())
+	}(time.Now())
+
+	return i.next.UpdateTodo(in, id, ctx)
+
+}
+
+func (i instrumentingServices) ChangeStatus(status string, id uint, ctx *gin.Context) *todo.BaseResult {
+	defer func(begin time.Time) {
+		i.requestCounter.With("method", "ChangeStatus").Add(1)
+		i.requestLatency.With("method", "ChangeStatus").Observe(time.Since(begin).Seconds())
+	}(time.Now())
+
+	return i.next.ChangeStatus(status, id, ctx)
+
+}

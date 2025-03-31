@@ -31,3 +31,10 @@ func (a *authorizationService) GetByID(id uint, ctx *gin.Context) *todo.BaseResu
 func (a *authorizationService) DeleteTodo(id uint, ctx *gin.Context) *todo.BaseResult {
 	return a.next.DeleteTodo(id, ctx)
 }
+
+func (a *authorizationService) UpdateTodo(in *models.TodoInput, id uint, ctx *gin.Context) *todo.BaseResult {
+	return a.next.UpdateTodo(in, id, ctx)
+}
+func (a *authorizationService) ChangeStatus(status string, id uint, ctx *gin.Context) *todo.BaseResult {
+	return a.next.ChangeStatus(status, id, ctx)
+}

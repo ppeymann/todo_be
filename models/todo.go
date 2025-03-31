@@ -21,6 +21,12 @@ type (
 
 		// DeleteTodo
 		DeleteTodo(id uint, ctx *gin.Context) *todo.BaseResult
+
+		// UpdateTodo is method for update a todo
+		UpdateTodo(in *TodoInput, id uint, ctx *gin.Context) *todo.BaseResult
+
+		// ChangeStatus is method for changing todo's status
+		ChangeStatus(status string, id uint, ctx *gin.Context) *todo.BaseResult
 	}
 
 	// @TodoRepository represents method signatures for todo domain repository.
@@ -58,6 +64,12 @@ type (
 
 		// DeleteTodo is handler for delete one todo by specific ID
 		DeleteTodo(*gin.Context)
+
+		// UpdateTodo is handler for update a todo by specific ID
+		UpdateTodo(*gin.Context)
+
+		// ChangeStatus is handler for change status todo's status
+		ChangeStatus(ctx *gin.Context)
 	}
 
 	// @TodoEntity represents todo entity
@@ -89,6 +101,7 @@ type (
 		Title       string `json:"title" gorm:"column:title"`
 		Description string `json:"description" gorm:"column:description"`
 		Priority    uint32 `json:"priority" gorm:"column:priority"`
+		Status      string `json:"status" gorm:"column:status"`
 	}
 )
 
@@ -97,3 +110,5 @@ const (
 	Done       string = "complete"
 	Cancel     string = "cancel"
 )
+
+var AllStatus []string = []string{InProgress, Done, Cancel}

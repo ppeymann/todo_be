@@ -69,7 +69,7 @@ func (r *todoRepository) GetByID(id, accountID uint) (*models.TodoEntity, error)
 }
 
 func (r *todoRepository) Update(todo *models.TodoEntity) error {
-	return r.Model().Save(todo).Error
+	return r.Model().Save(&todo).Error
 }
 
 func (r *todoRepository) DeleteTodo(id, accountID uint) error {
@@ -83,7 +83,6 @@ func (r *todoRepository) DeleteTodo(id, accountID uint) error {
 
 // Migrate implements models.todoRepository.
 func (r *todoRepository) Migrate() error {
-
 	return r.pg.AutoMigrate(&models.TodoEntity{})
 }
 

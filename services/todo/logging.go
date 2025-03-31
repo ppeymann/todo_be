@@ -80,3 +80,35 @@ func (l *loggingServices) DeleteTodo(id uint, ctx *gin.Context) (result *todo.Ba
 
 	return l.next.DeleteTodo(id, ctx)
 }
+
+func (l *loggingServices) UpdateTodo(in *models.TodoInput, id uint, ctx *gin.Context) (result *todo.BaseResult) {
+	defer func(begin time.Time) {
+		_ = l.logger.Log(
+			"method", "UpdateTodo",
+			"errors", strings.Join(result.Errors, " ,"),
+			"input", in,
+			"id", id,
+			"result", result,
+			"client_ip", ctx.ClientIP(),
+			"took", time.Since(begin),
+		)
+	}(time.Now())
+
+	return l.next.UpdateTodo(in, id, ctx)
+}
+
+func (l *loggingServices) ChangeStatus(status string, id uint, ctx *gin.Context) (result *todo.BaseResult) {
+	defer func(begin time.Time) {
+		_ = l.logger.Log(
+			"method", "ChangeStatus",
+			"errors", strings.Join(result.Errors, " ,"),
+			"status", status,
+			"id", id,
+			"result", result,
+			"client_ip", ctx.ClientIP(),
+			"took", time.Since(begin),
+		)
+	}(time.Now())
+
+	return l.next.ChangeStatus(status, id, ctx)
+}

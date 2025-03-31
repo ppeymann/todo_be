@@ -67,6 +67,8 @@ definitions:
         type: string
       priority:
         type: integer
+      status:
+        type: string
       title:
         type: string
     type: object
@@ -159,6 +161,12 @@ paths:
       consumes:
       - application/json
       description: delete todo with specified info and Account ID
+      parameters:
+      - description: todo ID
+        in: path
+        name: id
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -180,6 +188,12 @@ paths:
       consumes:
       - application/json
       description: get one todo with specified info and Account ID
+      parameters:
+      - description: todo ID
+        in: path
+        name: id
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -195,6 +209,39 @@ paths:
       security:
       - Bearer Authenticate: []
       summary: get one todo
+      tags:
+      - todos
+    put:
+      consumes:
+      - application/json
+      description: update todo task with specified info and Account ID AND ID
+      parameters:
+      - description: todo input
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.TodoInput'
+      - description: todo ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: always returns status 200 but body contains error
+          schema:
+            allOf:
+            - $ref: '#/definitions/todo.BaseResult'
+            - properties:
+                result:
+                  $ref: '#/definitions/models.TodoEntity'
+              type: object
+      security:
+      - Bearer Authenticate: []
+      summary: update todo task
       tags:
       - todos
   /change_pass:
@@ -281,4 +328,38 @@ paths:
       summary: signing up a new account
       tags:
       - account
+  /status/{id}/{status}:
+    patch:
+      consumes:
+      - application/json
+      description: update status todo task with specified info and Account ID AND
+        ID
+      parameters:
+      - description: todo ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: todo status
+        in: path
+        name: status
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: always returns status 200 but body contains error
+          schema:
+            allOf:
+            - $ref: '#/definitions/todo.BaseResult'
+            - properties:
+                result:
+                  $ref: '#/definitions/models.TodoEntity'
+              type: object
+      security:
+      - Bearer Authenticate: []
+      summary: update status todo task
+      tags:
+      - todos
 swagger: "2.0"

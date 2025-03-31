@@ -12,6 +12,14 @@
         },
         "title": {
             "type": "string"
+        },
+        "status":{
+            "type": "string",
+            "enum": [
+                "in_progress",
+                "complete",
+                "cancel"
+            ]
         }
     },
     "required": [

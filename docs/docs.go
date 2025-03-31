@@ -250,6 +250,62 @@ const docTemplate = `{
                 }
             }
         },
+        "/status/{id}/{status}": {
+            "patch": {
+                "security": [
+                    {
+                        "Bearer Authenticate": []
+                    }
+                ],
+                "description": "update status todo task with specified info and Account ID AND ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "todos"
+                ],
+                "summary": "update status todo task",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "todo ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "todo status",
+                        "name": "status",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "always returns status 200 but body contains error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/todo.BaseResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/models.TodoEntity"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/{id}": {
             "get": {
                 "security": [
@@ -268,6 +324,71 @@ const docTemplate = `{
                     "todos"
                 ],
                 "summary": "get one todo",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "todo ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "always returns status 200 but body contains error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/todo.BaseResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/models.TodoEntity"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer Authenticate": []
+                    }
+                ],
+                "description": "update todo task with specified info and Account ID AND ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "todos"
+                ],
+                "summary": "update todo task",
+                "parameters": [
+                    {
+                        "description": "todo input",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.TodoInput"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "todo ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "always returns status 200 but body contains error",
@@ -306,6 +427,15 @@ const docTemplate = `{
                     "todos"
                 ],
                 "summary": "delete todo",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "todo ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "always returns status 200 but body contains error",
@@ -429,6 +559,9 @@ const docTemplate = `{
                 },
                 "priority": {
                     "type": "integer"
+                },
+                "status": {
+                    "type": "string"
                 },
                 "title": {
                     "type": "string"
