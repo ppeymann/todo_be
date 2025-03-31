@@ -9,54 +9,54 @@ import (
 	"github.com/ppeymann/todo_be.git/models"
 	"github.com/ppeymann/todo_be.git/repository"
 	"github.com/ppeymann/todo_be.git/server"
-	"github.com/ppeymann/todo_be.git/services/account"
+	todos "github.com/ppeymann/todo_be.git/services/todo"
 
 	stdprometheus "github.com/prometheus/client_golang/prometheus"
 	"gorm.io/gorm"
 )
 
-func InitTodoService(db *gorm.DB, logger kitLog.Logger, config *todo.Configuration, server *server.Server) models.AccountService {
-	accountRepo := repository.NewAccountRepository(db, config.Database)
+func InitTodoService(db *gorm.DB, logger kitLog.Logger, config *todo.Configuration, server *server.Server) models.TodoService {
+	todoRepo := repository.NewTodoRepository(db, config.Database)
 
-	err := accountRepo.Migrate()
+	err := todoRepo.Migrate()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// accountService create service
-	accountService := account.NewService(accountRepo, config)
+	// @TodoService create service
+	todoService := todos.NewService(todoRepo)
 
 	// getting path
-	path := getSchemaPath("account")
-	accountService, err = account.NewValidationService(path, accountService)
+	path := getSchemaPath("todo")
+	todoService, err = todos.NewValidationService(path, todoService)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	// @Inject logging service to chain
-	accountService = account.NewLoggingServices(kitLog.With(logger, "component", "account"), accountService)
+	todoService = todos.NewLoggingServices(kitLog.With(logger, "component", "todo"), todoService)
 
 	// @Inject instrumenting service to chain
-	accountService = account.NewInstrumentingService(
+	todoService = todos.NewInstrumentingService(
 		kitprometheus.NewCounterFrom(stdprometheus.CounterOpts{
 			Namespace: "api",
-			Subsystem: "account",
+			Subsystem: "todo",
 			Name:      "request_count",
 			Help:      "num of requests received.",
 		}, fieldKeys),
 		kitprometheus.NewSummaryFrom(stdprometheus.SummaryOpts{
 			Namespace: "api",
-			Subsystem: "account",
+			Subsystem: "todo",
 			Name:      "request_latency_microseconds",
 			Help:      "total duration of requests (ms).",
 		}, fieldKeys),
-		accountService,
+		todoService,
 	)
 
 	// @Inject authorization service to chain and return it
-	accountService = account.NewAuthorizationService(accountService)
+	todoService = todos.NewAuthorizationService(todoService)
 
-	_ = account.NewHandler(accountService, server)
+	_ = todos.NewHandler(todoService, server)
 
-	return accountService
+	return todoService
 }

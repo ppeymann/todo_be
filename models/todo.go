@@ -36,7 +36,7 @@ type (
 		gorm.Model `swaggerignore:"true"`
 
 		// Title
-		Title string `json:"title" gorm:"column:title;index;unique"`
+		Title string `json:"title" gorm:"column:title"`
 
 		// Description
 		Description string `json:"description" gorm:"column:description"`
@@ -55,7 +55,7 @@ type (
 	//
 	// swagger:model TodoInput
 	TodoInput struct {
-		Title       string `json:"title" gorm:"column:title;index;unique"`
+		Title       string `json:"title" gorm:"column:title"`
 		Description string `json:"description" gorm:"column:description"`
 		Priority    uint32 `json:"priority" gorm:"column:priority"`
 	}

@@ -53,7 +53,11 @@ func main() {
 
 	// --------  initializing service  --------
 
-	pkg.InitAccountService(db, sl, config, *&svc)
+	// AccountService
+	pkg.InitAccountService(db, sl, config, svc)
+
+	// @TodoService
+	pkg.InitTodoService(db, sl, config, svc)
 
 	// Listen and serve...
 	svc.Listen()

@@ -1,4 +1,4 @@
-package todo
+package todos
 
 import (
 	"net/http"
@@ -11,14 +11,12 @@ import (
 )
 
 type service struct {
-	repo   models.TodoRepository
-	config *todo.Configuration
+	repo models.TodoRepository
 }
 
-func NewService(repo models.TodoRepository, config *todo.Configuration) models.TodoService {
+func NewService(repo models.TodoRepository) models.TodoService {
 	return &service{
-		repo:   repo,
-		config: config,
+		repo: repo,
 	}
 }
 

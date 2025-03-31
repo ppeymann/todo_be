@@ -1,0 +1,22 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$protected": false,
+    "type": "object",
+    "$id": "TodoInput",
+    "properties": {
+        "description": {
+            "type": "string"
+        },
+        "priority": {
+            "type": "integer"
+        },
+        "title": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "description",
+        "priority",
+        "title"
+    ]
+}

@@ -78,7 +78,7 @@ func (r *accountRepository) Update(account *models.AccountEntity) error {
 func (r *accountRepository) FindByID(id uint) (*models.AccountEntity, error) {
 	acc := &models.AccountEntity{}
 
-	err := r.Model().Where("id = ?", id).First(acc).Error
+	err := r.Model().Where("id = ?", id).Preload("Todos").First(acc).Error
 	if err != nil {
 		return nil, err
 	}

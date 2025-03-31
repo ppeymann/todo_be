@@ -1,4 +1,4 @@
-package todo
+package todos
 
 import (
 	"net/http"
@@ -16,6 +16,14 @@ type handler struct {
 func NewHandler(svc models.TodoService, s *server.Server) models.TodoHandler {
 	handler := &handler{
 		service: svc,
+	}
+
+	group := s.Router.Group("/api/v1/todo")
+
+	// Authentication Middleware
+	group.Use(s.Authenticate())
+	{
+		group.POST("/", handler.AddTodo)
 	}
 
 	return handler
