@@ -19,3 +19,7 @@ func NewAuthorizationService(service models.TodoService) models.TodoService {
 func (a *authorizationService) AddTodo(in *models.TodoInput, ctx *gin.Context) *todo.BaseResult {
 	return a.next.AddTodo(in, ctx)
 }
+
+func (a *authorizationService) GetAll(ctx *gin.Context) *todo.BaseResult {
+	return a.next.GetAll(ctx)
+}

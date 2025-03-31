@@ -22,7 +22,7 @@ const docTemplate = `{
                         "Bearer Authenticate": []
                     }
                 ],
-                "description": "get account info with specified id",
+                "description": "get all todos with specified info and Account ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -30,9 +30,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "account"
+                    "todos"
                 ],
-                "summary": "get account info",
+                "summary": "get all todo",
                 "responses": {
                     "200": {
                         "description": "always returns status 200 but body contains error",
@@ -45,7 +45,10 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "result": {
-                                            "$ref": "#/definitions/models.AccountEntity"
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.TodoEntity"
+                                            }
                                         }
                                     }
                                 }

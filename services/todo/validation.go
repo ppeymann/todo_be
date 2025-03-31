@@ -33,3 +33,7 @@ func (v *validationService) AddTodo(in *models.TodoInput, ctx *gin.Context) *tod
 
 	return v.next.AddTodo(in, ctx)
 }
+
+func (v *validationService) GetAll(ctx *gin.Context) *todo.BaseResult {
+	return v.next.GetAll(ctx)
+}

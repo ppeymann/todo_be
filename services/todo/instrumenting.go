@@ -32,3 +32,13 @@ func (i instrumentingServices) AddTodo(in *models.TodoInput, ctx *gin.Context) *
 	return i.next.AddTodo(in, ctx)
 
 }
+
+func (i instrumentingServices) GetAll(ctx *gin.Context) *todo.BaseResult {
+	defer func(begin time.Time) {
+		i.requestCounter.With("method", "GetAll").Add(1)
+		i.requestLatency.With("method", "GetAll").Observe(time.Since(begin).Seconds())
+	}(time.Now())
+
+	return i.next.GetAll(ctx)
+
+}

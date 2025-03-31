@@ -43,3 +43,27 @@ func (s *service) AddTodo(in *models.TodoInput, ctx *gin.Context) *todo.BaseResu
 		Result: task,
 	}
 }
+
+func (s *service) GetAll(ctx *gin.Context) *todo.BaseResult {
+	claims := &auth.Claims{}
+	err := utils.CatchClaims(ctx, claims)
+	if err != nil {
+		return &todo.BaseResult{
+			Status: http.StatusOK,
+			Errors: []string{todo.AuthorizationFailed},
+		}
+	}
+
+	todos, err := s.repo.GetAll(claims.Subject)
+	if err != nil {
+		return &todo.BaseResult{
+			Status: http.StatusOK,
+			Errors: []string{err.Error()},
+		}
+	}
+
+	return &todo.BaseResult{
+		Status: http.StatusOK,
+		Result: todos,
+	}
+}

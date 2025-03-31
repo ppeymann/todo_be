@@ -106,7 +106,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: get account info with specified id
+      description: get all todos with specified info and Account ID
       produces:
       - application/json
       responses:
@@ -117,13 +117,15 @@ paths:
             - $ref: '#/definitions/todo.BaseResult'
             - properties:
                 result:
-                  $ref: '#/definitions/models.AccountEntity'
+                  items:
+                    $ref: '#/definitions/models.TodoEntity'
+                  type: array
               type: object
       security:
       - Bearer Authenticate: []
-      summary: get account info
+      summary: get all todo
       tags:
-      - account
+      - todos
     post:
       consumes:
       - application/json

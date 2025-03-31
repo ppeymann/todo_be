@@ -46,6 +46,17 @@ func (r *todoRepository) CreateTodo(in *models.TodoInput, id uint) (*models.Todo
 	return todo, nil
 }
 
+func (r *todoRepository) GetAll(id uint) ([]models.TodoEntity, error) {
+	var todos []models.TodoEntity
+
+	err := r.Model().Where("account_id = ?", id).Find(&todos).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return todos, nil
+}
+
 // Migrate implements models.todoRepository.
 func (r *todoRepository) Migrate() error {
 

@@ -24,6 +24,7 @@ func NewHandler(svc models.TodoService, s *server.Server) models.TodoHandler {
 	group.Use(s.Authenticate())
 	{
 		group.POST("/", handler.AddTodo)
+		group.GET("/", handler.GetAll)
 	}
 
 	return handler
@@ -54,5 +55,22 @@ func (h *handler) AddTodo(ctx *gin.Context) {
 	}
 
 	result := h.service.AddTodo(in, ctx)
+	ctx.JSON(result.Status, result)
+}
+
+// GetAll is handler for get all todos http request.
+//
+// @BasePath			/api/v1/todo
+// @Summary				get all todo
+// @Description			get all todos with specified info and Account ID
+// @Tags				todos
+// @Accept				json
+// @Produce				json
+//
+// @Success				200			{object}	todo.BaseResult{result=[]models.TodoEntity}	"always returns status 200 but body contains error"
+// @Router				/		[get]
+// @Security			Bearer Authenticate
+func (h *handler) GetAll(ctx *gin.Context) {
+	result := h.service.GetAll(ctx)
 	ctx.JSON(result.Status, result)
 }

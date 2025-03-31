@@ -12,6 +12,9 @@ type (
 	TodoService interface {
 		// AddTodo is method for adding todo
 		AddTodo(in *TodoInput, ctx *gin.Context) *todo.BaseResult
+
+		// GetAll is method for getting all todo with specific account ID
+		GetAll(ctx *gin.Context) *todo.BaseResult
 	}
 
 	// @TodoRepository represents method signatures for todo domain repository.
@@ -20,13 +23,20 @@ type (
 		// CreateTodo is method for creating todo
 		CreateTodo(in *TodoInput, id uint) (*TodoEntity, error)
 
+		// GetAll is method for getting all todo with specific account ID
+		GetAll(id uint) ([]TodoEntity, error)
+
 		todo.BaseRepository
 	}
 
 	// @TodoHandler represents method signatures for Todo handlers.
 	// so any object that stratifying this interface can be used as Todo handlers.
 	TodoHandler interface {
+		// AddTodo is handler for add new todo task http request.
 		AddTodo(ctx *gin.Context)
+
+		// GetAll is handler for get all todo task http request.
+		GetAll(ctx *gin.Context)
 	}
 
 	// @TodoEntity represents todo entity

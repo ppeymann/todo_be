@@ -36,3 +36,17 @@ func (l *loggingServices) AddTodo(in *models.TodoInput, ctx *gin.Context) (resul
 
 	return l.next.AddTodo(in, ctx)
 }
+
+func (l *loggingServices) GetAll(ctx *gin.Context) (result *todo.BaseResult) {
+	defer func(begin time.Time) {
+		_ = l.logger.Log(
+			"method", "GetAll",
+			"errors", strings.Join(result.Errors, " ,"),
+			"result", result,
+			"client_ip", ctx.ClientIP(),
+			"took", time.Since(begin),
+		)
+	}(time.Now())
+
+	return l.next.GetAll(ctx)
+}
