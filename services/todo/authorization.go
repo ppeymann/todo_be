@@ -23,3 +23,11 @@ func (a *authorizationService) AddTodo(in *models.TodoInput, ctx *gin.Context) *
 func (a *authorizationService) GetAll(ctx *gin.Context) *todo.BaseResult {
 	return a.next.GetAll(ctx)
 }
+
+func (a *authorizationService) GetByID(id uint, ctx *gin.Context) *todo.BaseResult {
+	return a.next.GetByID(id, ctx)
+}
+
+func (a *authorizationService) DeleteTodo(id uint, ctx *gin.Context) *todo.BaseResult {
+	return a.next.DeleteTodo(id, ctx)
+}

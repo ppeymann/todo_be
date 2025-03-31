@@ -57,6 +57,30 @@ func (r *todoRepository) GetAll(id uint) ([]models.TodoEntity, error) {
 	return todos, nil
 }
 
+func (r *todoRepository) GetByID(id, accountID uint) (*models.TodoEntity, error) {
+	t := &models.TodoEntity{}
+
+	err := r.Model().Where("id = ? AND account_id = ?", id, accountID).First(t).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return t, nil
+}
+
+func (r *todoRepository) Update(todo *models.TodoEntity) error {
+	return r.Model().Save(todo).Error
+}
+
+func (r *todoRepository) DeleteTodo(id, accountID uint) error {
+	_, err := r.GetByID(id, accountID)
+	if err != nil {
+		return err
+	}
+
+	return r.Model().Where("id = ? AND account_id = ?", id, accountID).Delete(&models.TodoEntity{}).Error
+}
+
 // Migrate implements models.todoRepository.
 func (r *todoRepository) Migrate() error {
 

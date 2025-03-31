@@ -15,6 +15,12 @@ type (
 
 		// GetAll is method for getting all todo with specific account ID
 		GetAll(ctx *gin.Context) *todo.BaseResult
+
+		// GetByID
+		GetByID(id uint, ctx *gin.Context) *todo.BaseResult
+
+		// DeleteTodo
+		DeleteTodo(id uint, ctx *gin.Context) *todo.BaseResult
 	}
 
 	// @TodoRepository represents method signatures for todo domain repository.
@@ -25,6 +31,15 @@ type (
 
 		// GetAll is method for getting all todo with specific account ID
 		GetAll(id uint) ([]TodoEntity, error)
+
+		// GetByID is method for get one todo by that ID
+		GetByID(id, accountID uint) (*TodoEntity, error)
+
+		// Update is for update todo by ID
+		Update(*TodoEntity) error
+
+		// DeleteTodo is for delete a todo by that ID
+		DeleteTodo(id, accountID uint) error
 
 		todo.BaseRepository
 	}
@@ -37,6 +52,12 @@ type (
 
 		// GetAll is handler for get all todo task http request.
 		GetAll(ctx *gin.Context)
+
+		// GetByID is handler for get one todo by specific ID
+		GetByID(ctx *gin.Context)
+
+		// DeleteTodo is handler for delete one todo by specific ID
+		DeleteTodo(*gin.Context)
 	}
 
 	// @TodoEntity represents todo entity

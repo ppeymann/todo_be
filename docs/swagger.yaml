@@ -154,6 +154,49 @@ paths:
       summary: add new todo task
       tags:
       - todos
+  /{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete todo with specified info and Account ID
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: always returns status 200 but body contains error
+          schema:
+            allOf:
+            - $ref: '#/definitions/todo.BaseResult'
+            - properties:
+                result:
+                  type: string
+              type: object
+      security:
+      - Bearer Authenticate: []
+      summary: delete todo
+      tags:
+      - todos
+    get:
+      consumes:
+      - application/json
+      description: get one todo with specified info and Account ID
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: always returns status 200 but body contains error
+          schema:
+            allOf:
+            - $ref: '#/definitions/todo.BaseResult'
+            - properties:
+                result:
+                  $ref: '#/definitions/models.TodoEntity'
+              type: object
+      security:
+      - Bearer Authenticate: []
+      summary: get one todo
+      tags:
+      - todos
   /change_pass:
     patch:
       consumes:

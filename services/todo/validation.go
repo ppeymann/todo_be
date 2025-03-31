@@ -37,3 +37,11 @@ func (v *validationService) AddTodo(in *models.TodoInput, ctx *gin.Context) *tod
 func (v *validationService) GetAll(ctx *gin.Context) *todo.BaseResult {
 	return v.next.GetAll(ctx)
 }
+
+func (v *validationService) GetByID(id uint, ctx *gin.Context) *todo.BaseResult {
+	return v.next.GetByID(id, ctx)
+}
+
+func (v *validationService) DeleteTodo(id uint, ctx *gin.Context) *todo.BaseResult {
+	return v.next.DeleteTodo(id, ctx)
+}

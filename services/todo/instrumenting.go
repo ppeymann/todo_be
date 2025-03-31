@@ -42,3 +42,23 @@ func (i instrumentingServices) GetAll(ctx *gin.Context) *todo.BaseResult {
 	return i.next.GetAll(ctx)
 
 }
+
+func (i instrumentingServices) GetByID(id uint, ctx *gin.Context) *todo.BaseResult {
+	defer func(begin time.Time) {
+		i.requestCounter.With("method", "GetByID").Add(1)
+		i.requestLatency.With("method", "GetByID").Observe(time.Since(begin).Seconds())
+	}(time.Now())
+
+	return i.next.GetByID(id, ctx)
+
+}
+
+func (i instrumentingServices) DeleteTodo(id uint, ctx *gin.Context) *todo.BaseResult {
+	defer func(begin time.Time) {
+		i.requestCounter.With("method", "DeleteTodo").Add(1)
+		i.requestLatency.With("method", "DeleteTodo").Observe(time.Since(begin).Seconds())
+	}(time.Now())
+
+	return i.next.DeleteTodo(id, ctx)
+
+}

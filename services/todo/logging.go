@@ -50,3 +50,33 @@ func (l *loggingServices) GetAll(ctx *gin.Context) (result *todo.BaseResult) {
 
 	return l.next.GetAll(ctx)
 }
+
+func (l *loggingServices) GetByID(id uint, ctx *gin.Context) (result *todo.BaseResult) {
+	defer func(begin time.Time) {
+		_ = l.logger.Log(
+			"method", "GetByID",
+			"errors", strings.Join(result.Errors, " ,"),
+			"result", result,
+			"id", id,
+			"client_ip", ctx.ClientIP(),
+			"took", time.Since(begin),
+		)
+	}(time.Now())
+
+	return l.next.GetByID(id, ctx)
+}
+
+func (l *loggingServices) DeleteTodo(id uint, ctx *gin.Context) (result *todo.BaseResult) {
+	defer func(begin time.Time) {
+		_ = l.logger.Log(
+			"method", "DeleteTodo",
+			"errors", strings.Join(result.Errors, " ,"),
+			"result", result,
+			"id", id,
+			"client_ip", ctx.ClientIP(),
+			"took", time.Since(begin),
+		)
+	}(time.Now())
+
+	return l.next.DeleteTodo(id, ctx)
+}
