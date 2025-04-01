@@ -10,7 +10,7 @@ import (
 
 func (s *Server) cors() gin.HandlerFunc {
 	return cors.New(cors.Config{
-		AllowOrigins:     []string{"*"},
+		AllowOrigins:     []string{"*"}, // Explicitly allow frontend origin
 		AllowMethods:     []string{"POST", "GET", "PATCH", "OPTION", "DELETE"},
 		AllowHeaders:     []string{"Origin", "Content-Length", "Content-Type", "Authenticate", "Authorization"},
 		ExposeHeaders:    []string{"Origin"},

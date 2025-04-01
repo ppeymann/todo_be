@@ -59,7 +59,10 @@ func NewServer(logger kitlog.Logger, config *todo.Configuration) *Server {
 	// binding global metrics middleware
 	router.Use(svr.metrics())
 
-	if env.GetStringDefault("CORS_ENABLE", "false") == "false" {
+	en := env.GetStringDefault("CORS_ENABLE", "false")
+	fmt.Print(en)
+
+	if env.GetStringDefault("CORS_ENABLE", "false") == "true" {
 		router.Use(svr.cors())
 	}
 

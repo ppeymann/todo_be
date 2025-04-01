@@ -272,7 +272,7 @@ paths:
       - Bearer Authenticate: []
       summary: change password
       tags:
-      - account
+      - accounts
   /signin:
     post:
       consumes:
@@ -300,7 +300,7 @@ paths:
               type: object
       summary: sign in to existing account
       tags:
-      - account
+      - accounts
   /signup:
     post:
       consumes:
@@ -327,7 +327,7 @@ paths:
               type: object
       summary: signing up a new account
       tags:
-      - account
+      - accounts
   /status/{id}/{status}:
     patch:
       consumes:

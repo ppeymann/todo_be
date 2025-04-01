@@ -111,7 +111,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "account"
+                    "accounts"
                 ],
                 "summary": "change password",
                 "parameters": [
@@ -157,7 +157,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "account"
+                    "accounts"
                 ],
                 "summary": "sign in to existing account",
                 "parameters": [
@@ -203,7 +203,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "account"
+                    "accounts"
                 ],
                 "summary": "signing up a new account",
                 "parameters": [

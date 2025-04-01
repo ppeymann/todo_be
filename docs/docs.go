@@ -122,7 +122,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "account"
+                    "accounts"
                 ],
                 "summary": "change password",
                 "parameters": [
@@ -168,7 +168,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "account"
+                    "accounts"
                 ],
                 "summary": "sign in to existing account",
                 "parameters": [
@@ -214,7 +214,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "account"
+                    "accounts"
                 ],
                 "summary": "signing up a new account",
                 "parameters": [

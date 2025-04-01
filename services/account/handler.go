@@ -22,12 +22,14 @@ func NewHandler(svc models.AccountService, s *server.Server) models.AccountHandl
 	{
 		group.POST("/signup", handler.SignUp)
 		group.POST("/signin", handler.SignIn)
+
 	}
 
 	group.Use(s.Authenticate())
 	{
 		group.PATCH("/change_pass", handler.ChangePassword)
-		group.GET("/", handler.Account)
+		group.GET("", handler.Account)
+
 	}
 
 	return handler
@@ -38,7 +40,7 @@ func NewHandler(svc models.AccountService, s *server.Server) models.AccountHandl
 // @BasePath 		/api/v1/account/signup
 // @Summary			signing up a new account
 // @Description 	create new account with specified mobile and expected info
-// @Tags 			account
+// @Tags 			accounts
 // @Accept 			json
 // @Produce 		json
 //
@@ -67,7 +69,7 @@ func (h *handler) SignUp(ctx *gin.Context) {
 // @BasePath 		/api/v1/account/signin
 // @Summary			sign in to existing account
 // @Description 	sign in to existing account with specified mobile and expected info
-// @Tags 			account
+// @Tags 			accounts
 // @Accept 			json
 // @Produce 		json
 //
@@ -96,7 +98,7 @@ func (h *handler) SignIn(ctx *gin.Context) {
 // @BasePath 		/api/v1/account/change_pass
 // @Summary			change password
 // @Description 	change password with specified id
-// @Tags 			account
+// @Tags 			accounts
 // @Accept 			json
 // @Produce 		json
 //
@@ -126,13 +128,12 @@ func (h *handler) ChangePassword(ctx *gin.Context) {
 // @BasePath 		/api/v1/account
 // @Summary			get account info
 // @Description 	get account info with specified id
-// @Tags 			account
+// @Tags 			accounts
 // @Accept 			json
 // @Produce 		json
 //
 // @Success			200			{object}	todo.BaseResult{result=models.AccountEntity}	"always returns status 200 but body contains error"
 // @Router			/		[get]
-// @Security		Bearer Authenticate
 func (h *handler) Account(ctx *gin.Context) {
 
 	// call associated service method for expected request
